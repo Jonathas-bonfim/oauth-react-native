@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "oauth2app",
-    "slug": "oauth2app",
+    "name": "OAuthGoogle",
+    "slug": "OAuthGoogle",
+    "scheme": "oauthgoogle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
