@@ -10,6 +10,7 @@ import { Button } from '../../components/Button';
 
 import { styles } from './styles';
 import { theme } from '../../styles/theme';
+import { arrayBuffer } from 'stream/consumers';
 
 type Params = {
   token: string;
@@ -24,14 +25,22 @@ type Profile = {
   picture: string;
 }
 
+type Names = {
+  firstName: [];
+}
+
 export function Profile() {
   const [profile, setProfile] = useState({} as Profile);
+
+  const [names, setNames] = useState('');
+  let firstName;
+  let lastName;
 
   const navigation = useNavigation();
   const route = useRoute();
 
   const { token } = route.params as Params;
-  console.log(token);
+  // console.log(token);
 
   async function handleLogout() {
     navigation.navigate('SignIn');
@@ -48,6 +57,23 @@ export function Profile() {
     loadProfile();
   }, []);
 
+  useEffect(() => {
+    if (!profile.name) {
+      return;
+    }
+
+    const splitName = profile.name.split(" ");
+    if (splitName.length > 1) {
+      const fullName = `${splitName[0]} ${splitName[splitName.length - 1]}`
+
+      setNames(fullName);
+      console.log(fullName);
+    } else {
+      setNames(profile.given_name)
+    }
+
+  }, [profile.given_name])
+
   return (
     <View style={styles.container}>
       <ProfileHeader />
@@ -59,7 +85,7 @@ export function Profile() {
           />
 
           <Text style={styles.name}>
-            {profile.name}
+            {names}
           </Text>
 
           <View style={styles.email}>
